@@ -1,15 +1,21 @@
-## Welcome to GitHub Pages
+## 学习过的课程
 
-You can use the [editor on GitHub](https://github.com/leslielee619/leslielee619.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+### 力学
+材料力学、理论力学、流体力学、弹性力学、转子动力学、经典力学、连续介质力学
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### 装备
+流体机械、过程装备设计、航空燃气涡轮发动机结构设计
 
-### Markdown
+## 数学
+高等数学、线性代数、概率论
+数学物理方程、数值计算、非线性最优化
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## 工程
+信号处理
 
-```markdown
-Syntax highlighted code block
+## 熟悉的编程语言及软件
+Python
+Ansys（）、AutoCAD
 
 # Header 1
 ## Header 2
