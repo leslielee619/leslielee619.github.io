@@ -4,7 +4,7 @@
 PDE的数值解法、流体机械的流固耦合仿真、流体机械的信号处理、流体机械的故障诊断
 
 ## 熟悉的编程语言及软件
-Python、Ansys、AutoCAD
+Python；Ansys（APDL，Fluent，Workbench）、AutoCAD
 
 ## 爱好
 WWE、健身、广东话、听歌（国语歌、粤语歌、闽南歌）
