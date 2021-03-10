@@ -32,5 +32,4 @@ C语言、MATLAB语言与控制系统仿真、微机原理及应用
 工业机器人与先进控制方法
 
 ## 熟悉的编程语言及软件
-Python
-Ansys、AutoCAD
+Python、Ansys、AutoCAD
