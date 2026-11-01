@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leslie Lee's Homepage</title>
+    <!-- Markdown 渲染引擎 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- MathJax 公式渲染配置 -->
+    <script>
+        MathJax = { tex: { inlineMath: [['$', '$']] } };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #24292f;
+            background: #ffffff;
+        }
+        h1, h2, h3 { margin: 20px 0 12px; }
+        ul { margin-left: 2em; margin-bottom: 16px; }
+        a { color: #0969da; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .section { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #d0d7de; }
+        .post-list li { margin: 8px 0; cursor: pointer; list-style: none; }
+        .post-list li:hover { color: #0969da; }
+        .post-date { color: #656d76; margin-right: 12px; font-family: monospace; }
+        #post-content {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f6f8fa;
+            border-radius: 6px;
+            display: none;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 16px;
+            cursor: pointer;
+            color: #0969da;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部：个人资料区 -->
+    <div class="section" id="profile">
+        <p>加载中...</p>
+    </div>
+
+    <!-- 底部：博客标题列表 -->
+    <div class="section">
+        <h2>📝 博客笔记</h2>
+        <ul class="post-list" id="post-list">
+            <li>加载中...</li>
+        </ul>
+        <div id="post-content">
+            <span class="back-btn" onclick="hidePost()">← 返回列表</span>
+            <div id="post-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 配置区：可自行修改/添加仓库 ==========
+        const PROFILE_REPO = 'leslielee619/leslielee619';   // 个人资料仓库
+        const NOTE_REPO = 'leslielee619/deep_learning_notes'; // 笔记仓库
+        // ================================================
+
+        // 1. 加载个人资料 README
+        async function loadProfile() {
+            try {
+                const res = await fetch(`https://raw.githubusercontent.com/${PROFILE_REPO}/main/README.md`);
+                const md = await res.text();
+                document.getElementById('profile').innerHTML = marked.parse(md);
+                MathJax.typesetPromise();
+            } catch (e) {
+                document.getElementById('profile').innerHTML = '<p>资料加载失败</p>';
+            }
+        }
+
+        // 2. 加载笔记标题列表
+        async function loadPostList() {
+            try {
+                const res = await fetch(`https://api.github.com/repos/${NOTE_REPO}/contents/`);
+                const files = await res.json();
+                
+                // 筛选 md 文件，排除 README
+                const posts = files
+                    .filter(f => f.name.toLowerCase().endsWith('.md') && !f.name.toLowerCase().startsWith('readme'))
+                    .map(f => {
+                        const name = f.name.replace('.md', '');
+                        // 从文件名提取前8位为日期，剩余部分为标题
+                        const dateStr = name.slice(0, 8);
+                        const title = name.slice(8);
+                        const date = new Date(`${dateStr.slice(0,4)}-${dateStr.slice(4,6)}-${dateStr.slice(6,8)}`);
+                        return { name: f.name, title, date, url: f.download_url };
+                    })
+                    .sort((a, b) => b.date - a.date); // 按日期倒序排列
+
+                // 渲染列表
+                const listEl = document.getElementById('post-list');
+                listEl.innerHTML = '';
+                posts.forEach(post => {
+                    const li = document.createElement('li');
+                    const dateFormat = `${post.date.getFullYear()}-${String(post.date.getMonth()+1).padStart(2,'0')}-${String(post.date.getDate()).padStart(2,'0')}`;
+                    li.innerHTML = `<span class="post-date">${dateFormat}</span>${post.title}`;
+                    li.onclick = () => showPost(post);
+                    listEl.appendChild(li);
+                });
+            } catch (e) {
+                document.getElementById('post-list').innerHTML = '<li>笔记加载失败</li>';
+            }
+        }
+
+        // 3. 点击标题展示完整笔记内容
+        function showPost(post) {
+            fetch(post.url)
+                .then(res => res.text())
+                .then(md => {
+                    document.getElementById('post-body').innerHTML = marked.parse(md);
+                    document.getElementById('post-content').style.display = 'block';
+                    MathJax.typesetPromise();
+                    document.getElementById('post-content').scrollIntoView({ behavior: 'smooth' });
+                });
+        }
+
+        // 4. 返回笔记列表
+        function hidePost() {
+            document.getElementById('post-content').style.display = 'none';
+        }
+
+        // 页面加载时执行
+        loadProfile();
+        loadPostList();
+    </script>
+</body>
+</html>
