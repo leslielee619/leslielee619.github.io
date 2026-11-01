@@ -1,0 +1,158 @@
+---
+layout: default
+title: Home
+---
+
+<!-- ========================= -->
+<!-- Hero Section -->
+<!-- ========================= -->
+
+<section class="hero">
+
+    <p class="hero-label">
+
+        TECHNICAL NOTES
+
+    </p>
+
+
+    <h1>
+
+        {{ site.title }}
+
+    </h1>
+
+
+    <p class="hero-description">
+
+        {{ site.description }}
+
+    </p>
+
+</section>
+
+
+
+<!-- ========================= -->
+<!-- Blog List -->
+<!-- ========================= -->
+
+<section class="blog-section">
+
+
+    <div class="section-heading">
+
+        <h2>
+
+            Latest Posts
+
+        </h2>
+
+
+        <span class="post-count">
+
+            {{ site.posts | size }} Articles
+
+        </span>
+
+    </div>
+
+
+
+    {% if site.posts.size > 0 %}
+
+
+    <div class="post-list">
+
+
+        {% for post in site.posts limit:10 %}
+
+
+        <article class="post-card">
+
+
+            <!-- Date -->
+
+            <p class="post-date">
+
+                {{ post.date | date: "%Y-%m-%d" }}
+
+            </p>
+
+
+
+            <!-- Title -->
+
+            <h3>
+
+                <a href="{{ post.url | relative_url }}">
+
+                    {{ post.title }}
+
+                </a>
+
+            </h3>
+
+
+
+            <!-- Categories -->
+
+            {% if post.categories %}
+
+            <p class="post-category">
+
+                {{ post.categories | join: " / " }}
+
+            </p>
+
+            {% endif %}
+
+
+
+            <!-- Excerpt -->
+
+            {% if post.excerpt %}
+
+            <p class="post-excerpt">
+
+                {{ post.excerpt | strip_html | truncate: 180 }}
+
+            </p>
+
+            {% endif %}
+
+
+
+            <!-- Read More -->
+
+            <a class="read-more"
+               href="{{ post.url | relative_url }}">
+
+                Read More →
+
+            </a>
+
+
+        </article>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <p class="empty-message">
+
+        No articles published yet.
+
+    </p>
+
+
+    {% endif %}
+
+
+</section>
