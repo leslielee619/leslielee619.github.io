@@ -1,25 +1,53 @@
-# Site settings
-title: Leslie Lee
-email: leslie_ld@126.com
-description: >-
-  Personal homepage and technical blog. Interested in computed tomography, applied mathematics, physics and computer science.
-baseurl: ""
+# =========================
+# Website Information
+# =========================
+
+title: "My Technical Blog"
+
+description: "CT Reconstruction, Applied Mathematics and Computing"
+
+author: "LeslieLee"
+
+lang: "zh-CN"
+
+
+# =========================
+# GitHub Information
+# =========================
+
+github_url: "https://github.com/leslielee619"
+
+
+# =========================
+# GitHub Pages Configuration
+# =========================
+
 url: "https://leslielee619.github.io"
 
-# Build settings
-theme: minima
+baseurl: ""
+
+
+# =========================
+# Jekyll Configuration
+# =========================
+
 markdown: kramdown
 
-# 博客文章存放目录
-posts_dir: _posts
+permalink: /posts/:year/:month/:day/:title/
 
-# 导航栏菜单
-header_pages:
-  - index.md
-  - blog.md
+show_excerpts: true
 
-minima:
-  skin: auto
-  social_links:
-    - { platform: github, user_url: "https://github.com/leslielee619" }
-    - { platform: csdn, user_url: "https://leslielee.blog.csdn.net" }
+excerpt_separator: "<!--more-->"
+
+
+# =========================
+# Default Settings
+# =========================
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      author: "LiDong"
